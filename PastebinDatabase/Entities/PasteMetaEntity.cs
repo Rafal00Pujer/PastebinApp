@@ -1,7 +1,10 @@
-﻿using PastebinDatabase.EntityHelperTypes;
+﻿using Microsoft.EntityFrameworkCore;
+using PastebinDatabase.EntityConfigurations;
+using PastebinDatabase.EntityHelperTypes;
 
 namespace PastebinDatabase.Entities;
 
+[EntityTypeConfiguration(typeof(PasteMetaConfiguration))]
 public class PasteMetaEntity
 {
     //public Guid Id { get; set; }

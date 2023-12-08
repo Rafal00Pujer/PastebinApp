@@ -1,5 +1,9 @@
-﻿namespace PastebinDatabase.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using PastebinDatabase.EntityConfigurations;
 
+namespace PastebinDatabase.Entities;
+
+[EntityTypeConfiguration(typeof(PastePasswordConfiguration))]
 public class PastePasswordEntity
 {
     public required Guid PasteId { get; set; }
