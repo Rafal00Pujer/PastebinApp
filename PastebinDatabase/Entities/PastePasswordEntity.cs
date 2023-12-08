@@ -6,7 +6,7 @@ namespace PastebinDatabase.Entities;
 [EntityTypeConfiguration(typeof(PastePasswordConfiguration))]
 public class PastePasswordEntity
 {
-    public Guid PasteId { get; set; }
+    public required Guid PasteId { get; set; }
 
     public required string PasswordHash { get; set; }
 
