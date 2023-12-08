@@ -11,9 +11,5 @@ internal class PastePasswordConfiguration : IEntityTypeConfiguration<PastePasswo
         builder.ToTable("Pastes_Passwords");
 
         builder.HasKey(pp => pp.PasteId);
-
-        builder.HasOne(pp => pp.Meta)
-            .WithOne(pm => pm.Password)
-            .HasForeignKey<PasteEntity>();
     }
 }

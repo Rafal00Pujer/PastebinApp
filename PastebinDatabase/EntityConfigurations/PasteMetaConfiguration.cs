@@ -11,5 +11,15 @@ internal class PasteMetaConfiguration : IEntityTypeConfiguration<PasteMetaEntity
         builder.ToTable("Pastes_Metas");
 
         builder.HasKey(m => m.PasteId);
+
+        builder.HasOne(pm => pm.Paste)
+            .WithOne(p => p.Meta)
+            .HasForeignKey<PasteEntity>()
+            .IsRequired();
+
+        builder.HasOne(pm => pm.Password)
+            .WithOne(pp => pp.Meta)
+            .HasForeignKey<PastePasswordEntity>()
+            .IsRequired(false);
     }
 }
