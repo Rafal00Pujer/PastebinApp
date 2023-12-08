@@ -15,4 +15,8 @@ public class PasteMetaEntity
     public bool BurnOnRead { get; set; } = false;
 
     public bool PasswordProtected { get; set; } = false;
+
+    public virtual PasteEntity Paste { get; set; } = null!;
+
+    public virtual PastePasswordEntity? Password { get; set; } = null;
 }
