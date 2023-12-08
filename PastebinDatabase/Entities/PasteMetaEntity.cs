@@ -7,9 +7,7 @@ namespace PastebinDatabase.Entities;
 [EntityTypeConfiguration(typeof(PasteMetaConfiguration))]
 public class PasteMetaEntity
 {
-    //public Guid Id { get; set; }
-
-    public required Guid PasteId { get; set; }
+    public Guid PasteId { get; set; }
 
     public required PasteVisibility Visibility { get; set; }
 
