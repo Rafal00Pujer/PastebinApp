@@ -1,22 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PastebinDatabase\PastebinDatabase.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\PastebinDatabase\PastebinDatabase.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dtos\" />
-    <Folder Include="Extensions\" />
-  </ItemGroup>
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>PastebinLogic.Tests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-  </ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Extensions\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="AutoMapper" />
+		<Using Include="PastebinDatabase.Context;" />
+		<Using Include="PastebinDatabase.Entities" />
+		<Using Include="PastebinLogic.Dtos" />
+		<Using Include="PastebinLogic.Services.Implementations" />
+		<Using Include="PastebinLogic.Services.Interfaces" />
+	</ItemGroup>
 
 </Project>
