@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Security.Cryptography;
 
-namespace PastebinLogic.Tests;
+namespace PastebinLogic.Tests.Tests;
 
 public class PasswordServiceTests
 {
@@ -237,6 +237,6 @@ public class PasswordServiceTests
 
         // Assert
         action.Should().ThrowExactly<ArgumentException>();
-    } 
+    }
     #endregion
 }
