@@ -12,7 +12,7 @@ using PastebinDatabase.Context;
 namespace PastebinDatabase.Migrations
 {
     [DbContext(typeof(PastebinContext))]
-    [Migration("20231208150022_Initial")]
+    [Migration("20231214144528_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -31,6 +31,7 @@ namespace PastebinDatabase.Migrations
             modelBuilder.Entity("PastebinDatabase.Entities.PasteEntity", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
@@ -49,7 +50,6 @@ namespace PastebinDatabase.Migrations
             modelBuilder.Entity("PastebinDatabase.Entities.PasteMetaEntity", b =>
                 {
                     b.Property<Guid>("PasteId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("BurnOnRead")
@@ -87,15 +87,15 @@ namespace PastebinDatabase.Migrations
                     b.ToTable("Pastes_Passwords", (string)null);
                 });
 
-            modelBuilder.Entity("PastebinDatabase.Entities.PasteEntity", b =>
+            modelBuilder.Entity("PastebinDatabase.Entities.PasteMetaEntity", b =>
                 {
-                    b.HasOne("PastebinDatabase.Entities.PasteMetaEntity", "Meta")
-                        .WithOne("Paste")
-                        .HasForeignKey("PastebinDatabase.Entities.PasteEntity", "Id")
+                    b.HasOne("PastebinDatabase.Entities.PasteEntity", "Paste")
+                        .WithOne("Meta")
+                        .HasForeignKey("PastebinDatabase.Entities.PasteMetaEntity", "PasteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Meta");
+                    b.Navigation("Paste");
                 });
 
             modelBuilder.Entity("PastebinDatabase.Entities.PastePasswordEntity", b =>
@@ -107,12 +107,15 @@ namespace PastebinDatabase.Migrations
                     b.Navigation("Meta");
                 });
 
+            modelBuilder.Entity("PastebinDatabase.Entities.PasteEntity", b =>
+                {
+                    b.Navigation("Meta")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("PastebinDatabase.Entities.PasteMetaEntity", b =>
                 {
                     b.Navigation("Password");
-
-                    b.Navigation("Paste")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
