@@ -15,5 +15,10 @@ internal class PasteConfiguration : IEntityTypeConfiguration<PasteEntity>
         builder.Property(p => p.Name)
             .HasMaxLength(25)
             .IsRequired(false);
+
+        builder.HasOne(p => p.Meta)
+            .WithOne(pm => pm.Paste)
+            .HasForeignKey<PasteMetaEntity>()
+            .IsRequired();
     }
 }

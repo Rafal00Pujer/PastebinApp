@@ -12,6 +12,19 @@ namespace PastebinDatabase.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Pastes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pastes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pastes_Metas",
                 columns: table => new
                 {
@@ -24,24 +37,11 @@ namespace PastebinDatabase.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pastes_Metas", x => x.PasteId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Pastes",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pastes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Pastes_Pastes_Metas_Id",
-                        column: x => x.Id,
-                        principalTable: "Pastes_Metas",
-                        principalColumn: "PasteId",
+                        name: "FK_Pastes_Metas_Pastes_PasteId",
+                        column: x => x.PasteId,
+                        principalTable: "Pastes",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -68,13 +68,13 @@ namespace PastebinDatabase.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Pastes");
-
-            migrationBuilder.DropTable(
                 name: "Pastes_Passwords");
 
             migrationBuilder.DropTable(
                 name: "Pastes_Metas");
+
+            migrationBuilder.DropTable(
+                name: "Pastes");
         }
     }
 }
