@@ -13,5 +13,7 @@ internal class PasteMetaMapperProfile : Profile
                 o => o.Ignore())
             .ForMember(e => e.Password,
                 o => o.Ignore());
+
+        CreateMap<PasteMetaEntity, PasteMetaDto>();
     }
 }

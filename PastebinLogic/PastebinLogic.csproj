@@ -33,6 +33,7 @@
 		<Using Include="AutoMapper" />
 		<Using Include="PastebinDatabase.Context;" />
 		<Using Include="PastebinDatabase.Entities" />
+		<Using Include="PastebinDatabase.EntityHelperTypes" />
 		<Using Include="PastebinLogic.Dtos" />
 		<Using Include="PastebinLogic.Services.Implementations" />
 		<Using Include="PastebinLogic.Services.Interfaces" />
