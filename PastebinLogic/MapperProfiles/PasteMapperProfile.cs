@@ -9,5 +9,7 @@ internal class PasteMapperProfile : Profile
                 o => o.Ignore())
             .ForMember(e => e.Meta,
                 o => o.Ignore());
+
+        CreateMap<PasteEntity, PasteDto>();
     }
 }

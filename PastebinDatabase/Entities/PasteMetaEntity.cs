@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PastebinDatabase.EntityConfigurations;
 using PastebinDatabase.EntityHelperTypes;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PastebinDatabase.Entities;
 
@@ -15,6 +16,7 @@ public class PasteMetaEntity
 
     public bool BurnOnRead { get; set; } = false;
 
+    [MemberNotNullWhen(true, nameof(Password))]
     public bool PasswordProtected { get; set; } = false;
 
     public virtual PasteEntity Paste { get; set; } = null!;
