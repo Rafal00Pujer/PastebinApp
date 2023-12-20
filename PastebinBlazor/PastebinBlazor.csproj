@@ -17,4 +17,8 @@
     <ProjectReference Include="..\PastebinLogic\PastebinLogic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\Pages\Paste\" />
+  </ItemGroup>
+
 </Project>

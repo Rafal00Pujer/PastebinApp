@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PastebinBlazor.Components;
 using PastebinDatabase.Context;
+using PastebinLogic.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Services.AddDbContext<PastebinContext>(options =>
     options.UseLazyLoadingProxies()
         .UseSqlServer(builder.Configuration.GetConnectionString("PastebinDatabase"));
 });
+
+builder.Services.AddPastebinLogic();
 
 var app = builder.Build();
 
