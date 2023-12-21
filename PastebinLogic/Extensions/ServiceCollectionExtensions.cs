@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PastebinLogic.MapperProfiles;
 
 namespace PastebinLogic.Extensions;
 
@@ -14,7 +14,7 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<IPasswordService, PasswordService>();
 
-        services.AddAutoMapper(Assembly.GetCallingAssembly());
+        services.AddAutoMapper(typeof(PasteMapperProfile).Assembly);
 
         return services;
     }

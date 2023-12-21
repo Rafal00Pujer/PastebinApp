@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastebinBlazor", "PastebinBlazor\PastebinBlazor.csproj", "{C9C63E47-4285-4D5B-99CB-33DAA0845976}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PastebinBlazor", "PastebinBlazor\PastebinBlazor.csproj", "{C9C63E47-4285-4D5B-99CB-33DAA0845976}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastebinLogic", "PastebinLogic\PastebinLogic.csproj", "{328C8298-D149-4E7A-932C-30CEB8BD527C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PastebinLogic", "PastebinLogic\PastebinLogic.csproj", "{328C8298-D149-4E7A-932C-30CEB8BD527C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastebinDatabase", "PastebinDatabase\PastebinDatabase.csproj", "{52D6EAFB-A863-46B3-A689-85710FC1F891}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PastebinDatabase", "PastebinDatabase\PastebinDatabase.csproj", "{52D6EAFB-A863-46B3-A689-85710FC1F891}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastebinLogic.Tests", "PastebinLogic.Tests\PastebinLogic.Tests.csproj", "{DF2BB1DC-3CC7-4284-B05C-268FF338565E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PastebinLogic.Tests", "PastebinLogic.Tests\PastebinLogic.Tests.csproj", "{DF2BB1DC-3CC7-4284-B05C-268FF338565E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

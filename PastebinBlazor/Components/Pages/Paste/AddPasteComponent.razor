@@ -1,0 +1,160 @@
+﻿@page "/addpaste"
+
+@rendermode InteractiveServer
+
+@inject PastebinLogic.Services.Interfaces.IAddPasteService AddPasteService
+@inject AutoMapper.IMapper Mapper
+
+<PageTitle>
+    @Title
+</PageTitle>
+
+<div class="container">
+    <div class="row row-cols-1">
+        <div class="col text-center">
+            <h1>@Title</h1>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(AddPasteErrorMessage))
+    {
+        <div class="row row-cols-1">
+            <div class="col text-center mt-5">
+                <p class="fs-4 text-danger">@AddPasteErrorMessage</p>
+            </div>
+        </div>
+    }
+
+    <EditForm EditContext="@editContext" OnValidSubmit="OnValidSubmit" FormName="AddPaste">
+        <DataAnnotationsValidator />
+
+        <div class="row">
+            <div class="col-12 mt-5">
+                <div class="form-floating @GetFieldCssClass(() => Model.Name)">
+                    <InputText @bind-Value="Model.Name" id="PasteName" class="form-control"
+                               placeholder="Name" aria-describedby="validationPasteName" />
+                    <label for="PasteName">Paste name</label>
+                </div>
+                <ValidationMessage For="@(() => Model.Name)" id="validationPasteName" class="invalid-feedback" />
+            </div>
+
+            <div class="col-12 mt-2">
+                <div class="form-floating @GetFieldCssClass(() => Model.Content)">
+                    <InputTextArea @bind-Value="Model.Content" id="PasteContent" class="form-control" style="height: 100px"
+                                   placeholder="Content" aria-describedby="validationPasteContent" />
+                    <label for="PasteContent">Paste content</label>
+                </div>
+                <ValidationMessage For="@(() => Model.Content)" id="validationPasteContent" class="invalid-feedback" />
+            </div>
+
+            <div class="col-12 mt-2">
+                <div class="input-group has-validation">
+                    <div class="form-floating @GetFieldCssClass(() => Model.ExpirationDate)">
+                        <InputDate @bind-Value="Model.ExpirationDate" id="PasteExpirationDate" class="form-control"
+                                   aria-describedby="validationPasteExpirationDate" />
+                        <label for="PasteExpirationDate">Expiration date</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <InputSelect @bind-Value="Model.Visibility" class="form-select" id="PasteVisibiliti">
+                            <option value="@PasteVisibility.Public" selected>Public</option>
+                            <option value="@PasteVisibility.Link">Private</option>
+                        </InputSelect>
+                        <label for="PasteVisibiliti">Paste visibiliti</label>
+                    </div>
+
+                    <span class="input-group-text"> Burn on read</span>
+                    <div class="input-group-text @GetFieldCssClass(() => Model.BurnOnRead)">
+                        @if (Model.Visibility == PasteVisibility.Link)
+                        {
+                            <InputCheckbox @bind-Value="Model.BurnOnRead"
+                                           aria-describedby="validationPasteBurnOnRead" />
+                        }
+                        else
+                        {
+                            <InputCheckbox @bind-Value="Model.BurnOnRead" disabled
+                                           aria-describedby="validationPasteBurnOnRead" />
+                        }
+                    </div>
+
+                    <ValidationMessage For="@(() => Model.ExpirationDate)" id="validationPasteExpirationDate" class="invalid-feedback" />
+                    <ValidationMessage For="@(() => Model.BurnOnRead)" id="validationPasteBurnOnRead" class="invalid-feedback" />
+                </div>
+            </div>
+
+            <div class="col-12 mt-2">
+                <div class="input-group has-validation">
+                    <span class="input-group-text">Password protected</span>
+
+                    <div class="input-group-text @GetFieldCssClass(() => Model.PasswordProtected)">
+                        @if (Model.Visibility == PasteVisibility.Link)
+                        {
+                            <InputCheckbox @bind-Value="Model.PasswordProtected"
+                                           aria-describedby="validationPastePasswordProtected" />
+                        }
+                        else
+                        {
+                            <InputCheckbox @bind-Value="Model.PasswordProtected" disabled
+                                           aria-describedby="validationPastePasswordProtected" />
+                        }
+                    </div>
+                    <ValidationMessage For="@(() => Model.PasswordProtected)" id="validationPastePasswordProtected" class="invalid-feedback" />
+
+                    <div class="form-floating @GetFieldCssClass(() => Model.Password)">
+
+                        @if (Model.PasswordProtected)
+                        {
+                            <InputText @bind-Value="Model.Password" type="password" class="form-control" id="PastePassword" placeholder="abc"
+                                       aria-describedby="validationPastePassword" />
+                        }
+                        else
+                        {
+                            <InputText @bind-Value="Model.Password" type="password" class="form-control" id="PastePassword" placeholder="abc" disabled
+                                       aria-describedby="validationPastePassword" />
+                        }
+
+                        <label for="PastePassword">Password</label>
+                    </div>
+                    <ValidationMessage For="@(() => Model.Password)" id="validationPastePassword" class="invalid-feedback" />
+                </div>
+            </div>
+
+            <div class="col-3 mt-2 d-flex">
+                <button class="btn btn-primary flex-fill" type="submit">Add paste</button>
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    const string Title = "Add paste";
+
+    private string? AddPasteErrorMessage;
+    private EditContext? editContext;
+
+    public AddPasteModel Model { get; set; } = new AddPasteModel();
+
+    protected override void OnInitialized()
+    {
+        editContext = new(Model);
+        editContext.SetFieldCssClassProvider(new BootstrapFieldClassProvider());
+    }
+
+    private string GetFieldCssClass<TField>(System.Linq.Expressions.Expression<Func<TField>> field)
+    {
+        return editContext!.FieldCssClass(field);
+    }
+
+    private async Task OnValidSubmit()
+    {
+        try
+        {
+            var dto = Mapper.Map<AddPasteModel, AddPasteDto>(Model);
+            var result = await AddPasteService.AddPasteAsync(dto);
+        }
+        catch
+        {
+            AddPasteErrorMessage = "An error occurred while adding the paste. Please try again later.";
+        }
+    }
+}
