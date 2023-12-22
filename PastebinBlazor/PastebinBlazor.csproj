@@ -17,4 +17,11 @@
     <ProjectReference Include="..\PastebinLogic\PastebinLogic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="PastebinBlazor.Models" />
+    <Using Include="PastebinBlazor.Models.Paste" />
+    <Using Include="PastebinDatabase.EntityHelperTypes" />
+    <Using Include="PastebinLogic.Dtos" />
+  </ItemGroup>
+
 </Project>
