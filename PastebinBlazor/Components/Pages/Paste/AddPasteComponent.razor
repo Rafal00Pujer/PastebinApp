@@ -43,7 +43,7 @@
             <div class="col-12 mt-2">
                 <div class="input-group has-validation">
                     <div class="form-floating @GetFieldCssClass(() => _model.ExpirationDate)">
-                        <InputDate @bind-Value="_model.ExpirationDate" id="PasteExpirationDate" class="form-control"
+                        <InputDate Type="InputDateType.DateTimeLocal" @bind-Value="_model.ExpirationDate" id="PasteExpirationDate" class="form-control"
                                    aria-describedby="validationPasteExpirationDate" />
                         <label for="PasteExpirationDate">Expiration date</label>
                     </div>
@@ -217,7 +217,7 @@
             var dto = Mapper.Map<AddPasteModel, AddPasteDto>(_model);
             var resultDto = await AddPasteService.AddPasteAsync(dto);
 
-            _pasteLink = NavigationManager.ToAbsoluteUri($"/paste/{resultDto.Id}").AbsolutePath;
+            _pasteLink = NavigationManager.ToAbsoluteUri($"/paste/{resultDto.Id}").ToString();
 
             _addPasteErrorMessage = null;
             _pasteAdded = true;
