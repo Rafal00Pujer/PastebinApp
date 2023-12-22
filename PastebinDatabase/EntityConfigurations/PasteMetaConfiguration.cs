@@ -15,6 +15,7 @@ internal class PasteMetaConfiguration : IEntityTypeConfiguration<PasteMetaEntity
         builder.HasOne(pm => pm.Password)
             .WithOne(pp => pp.Meta)
             .HasForeignKey<PastePasswordEntity>()
-            .IsRequired(false);
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

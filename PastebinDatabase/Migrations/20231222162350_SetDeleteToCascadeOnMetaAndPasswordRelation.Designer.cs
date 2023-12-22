@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PastebinDatabase.Context;
 
@@ -11,9 +12,11 @@ using PastebinDatabase.Context;
 namespace PastebinDatabase.Migrations
 {
     [DbContext(typeof(PastebinContext))]
-    partial class PastebinContextModelSnapshot : ModelSnapshot
+    [Migration("20231222162350_SetDeleteToCascadeOnMetaAndPasswordRelation")]
+    partial class SetDeleteToCascadeOnMetaAndPasswordRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
