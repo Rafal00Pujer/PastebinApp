@@ -18,15 +18,6 @@
         </div>
     </div>
 
-    @if (!string.IsNullOrWhiteSpace(_addPasteErrorMessage))
-    {
-        <div class="row row-cols-1">
-            <div class="col text-center mt-5">
-                <p class="fs-4 text-danger">@_addPasteErrorMessage</p>
-            </div>
-        </div>
-    }
-
     <EditForm EditContext="@_editContext" OnValidSubmit="OnValidSubmit" FormName="AddPaste">
         <DataAnnotationsValidator />
 
@@ -134,7 +125,15 @@
         </div>
     </EditForm>
 
-    @if (_pasteAdded)
+    @if (!string.IsNullOrWhiteSpace(_addPasteErrorMessage))
+    {
+        <div class="row row-cols-1">
+            <div class="col text-center mt-5">
+                <p class="fs-4 text-danger">@_addPasteErrorMessage</p>
+            </div>
+        </div>
+    }
+    else if (_pasteAdded)
     {
         <div class="row">
             <div class="col-12 text-center mt-5">

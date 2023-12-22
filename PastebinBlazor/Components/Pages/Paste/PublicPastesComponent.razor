@@ -1,0 +1,48 @@
+﻿@page "/publicpastes"
+
+@attribute [StreamRendering]
+
+@inject PastebinLogic.Services.Interfaces.IPasteService PasteService
+
+<PageTitle>
+    @Title
+</PageTitle>
+
+<div class="container">
+    <div class="row row-cols-1 mb-3">
+        <div class="col text-center">
+            <h1>@Title</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        @if (_pastes is null)
+        {
+            <div class="col-12">
+                <h3>Loading pastes...</h3>
+            </div>
+        }
+        else
+        {
+            @foreach (var paste in _pastes)
+            {
+                <div class="col-12 col-lg-6 my-2">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">@paste.Name</h5>
+                            <p class="card-text">@paste.Content</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    const string Title = "Public pastes";
+
+    private IEnumerable<PasteDto>? _pastes;
+
+    protected override async Task OnInitializedAsync() => _pastes = await PasteService.GetAllPublicPasteAsync();
+}
