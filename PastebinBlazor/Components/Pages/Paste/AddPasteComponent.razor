@@ -217,7 +217,8 @@
             var dto = Mapper.Map<AddPasteModel, AddPasteDto>(_model);
             var resultDto = await AddPasteService.AddPasteAsync(dto);
 
-            _pasteLink = resultDto.Id.ToString();
+            _pasteLink = NavigationManager.ToAbsoluteUri($"/paste/{resultDto.Id}").AbsolutePath;
+
             _addPasteErrorMessage = null;
             _pasteAdded = true;
         }

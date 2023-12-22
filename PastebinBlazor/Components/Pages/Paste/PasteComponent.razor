@@ -1,0 +1,183 @@
+﻿@page "/paste/{id:guid}"
+
+@rendermode InteractiveServer
+
+@inject PastebinLogic.Services.Interfaces.IPasteMetaService PasteMetaService
+@inject PastebinLogic.Services.Interfaces.IPasteService PasteService
+
+<PageTitle>
+    @Title
+</PageTitle>
+
+<div class="container">
+    <div class="row row-cols-1 mb-4">
+        <div class="col text-center">
+            <h1>@Title</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        @if (_errorMessage is not null)
+        {
+            <div class="col-12">
+                <h3 class="text-danger">@_errorMessage</h3>
+            </div>
+        }
+        else if (_meta is null)
+        {
+            <div class="col-12">
+                <h3>Loading paste...</h3>
+            </div>
+        }
+        else if (_paste is null)
+        {
+            if (_meta.PasswordProtected && _meta.BurnOnRead)
+            {
+                <div class="col-12">
+                    <h3 class="text-danger">This paste will burn on read!</h3>
+                </div>
+
+                <EditForm EditContext="@_editContext" OnValidSubmit="OnPasswordSubmit" FormName="PastePassword">
+                    <DataAnnotationsValidator />
+
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <InputText @bind-Value="_password" id="PastePassword" class="form-control"
+                                       placeholder="Password" type="password" />
+                            <label for="PasteName">Paste password</label>
+                        </div>
+
+                        @if (_invalidPassword)
+                        {
+                            <span class="text-danger">Please provide valid password.</span>
+                        }
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <button class="btn btn-primary flex-fill" type="submit">Open paste</button>
+                    </div>
+                </EditForm>
+            }
+            else if (_meta.PasswordProtected)
+            {
+                <EditForm EditContext="@_editContext" OnValidSubmit="OnPasswordSubmit" FormName="PastePassword">
+                    <DataAnnotationsValidator />
+
+                    <div class="col-12 mt-3">
+                        <div class="form-floating">
+                            <InputText @bind-Value="_password" id="PastePassword" class="form-control"
+                                       placeholder="Password" type="password" />
+                            <label for="PasteName">Paste password</label>
+                        </div>
+
+                        @if (_invalidPassword)
+                        {
+                            <span class="text-danger">Please provide valid password.</span>
+                        }
+                    </div>
+
+                    <div class="col-2 mt-3">
+                        <button class="btn btn-primary flex-fill" type="submit">Open paste</button>
+                    </div>
+                </EditForm>
+            }
+            else
+            {
+                <div class="col-12">
+                    <h3 class="text-danger">This paste will burn on read!</h3>
+                </div>
+
+                <EditForm EditContext="@_editContext" OnValidSubmit="OnPasswordSubmit" FormName="PastePassword">
+                    <DataAnnotationsValidator />
+
+                    <div class="col-2 mt-3">
+                        <button class="btn btn-primary flex-fill" type="submit">Open paste</button>
+                    </div>
+                </EditForm>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@_paste.Name</h5>
+                        <p class="card-text">@_paste.Content</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    const string Title = "Paste";
+    const string GenericErrorMEssage = "An error occurred while opening the paste. Please try again later.";
+
+    private EditContext? _editContext;
+
+    private PasteMetaDto? _meta;
+    private PasteDto? _paste;
+    private string? _errorMessage;
+
+    private string? _password;
+    private bool _invalidPassword = false;
+
+    [Parameter]
+    public Guid Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _editContext = new(this);
+
+        try
+        {
+            _meta = await PasteMetaService.GetPasteMetaAsync(Id);
+        }
+        catch (InvalidOperationException)
+        {
+            _errorMessage = "This paste doesn't exist.";
+            return;
+        }
+        catch
+        {
+            _errorMessage = GenericErrorMEssage;
+            return;
+        }
+
+        if (_meta.ExpirationDate < DateTime.UtcNow)
+        {
+            _errorMessage = "This paste expired.";
+            return;
+        }
+
+        if (!_meta.PasswordProtected && !_meta.BurnOnRead)
+        {
+            try
+            {
+                _paste = await PasteService.GetPasteAsync(Id);
+            }
+            catch
+            {
+                _errorMessage = GenericErrorMEssage;
+            }
+        }
+    }
+
+    private async Task OnPasswordSubmit()
+    {
+        try
+        {
+            _paste = await PasteService.GetPasteAsync(Id, _password);
+            _invalidPassword = false;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            _invalidPassword = true;
+        }
+        catch
+        {
+            _errorMessage = GenericErrorMEssage;
+        }
+    }
+}
